@@ -1820,19 +1820,14 @@ else (function(){
           if(sr){ const T=g.ext(g.l+.2*w,sr[1]-.04,e=>{const u=cTop(e);return u&&u[0]},true); if(T) oval(T,[sr[1],join(sr[1],-1,.16,px)],d+.26) }
         }
         else for(let k=0;k+1<st.length;k++){
-          const A=st[k], B=st[k+1];
-          if(!up){
-            /* арка: вершина между штамбами и место, где плечо стало вертикальным; внутренняя — по нижней стороне арки и внутреннему краю штамба.
-               У «m» плечо первой арки упирается во вторую, поэтому ей отдаются размеры последней — арки в букве одинаковые */
-            const lastB=st[st.length-1], lastA=st[st.length-2], tOut=(P1,P2)=>g.ext(P1,P2,e=>{const u=cTop(e);return u&&u[0]},true), tIn=(P1,P2)=>g.ext(P1,P2,e=>{const u=cTop(e);return u&&u[1]},true);
-            if(B===lastB){ oval(tOut(A[1]+.02,B[1]-.03),[B[1],join(B[1],-1,.16,px)],d+.14+k*.06,'l',true); oval(tIn(A[1]+.01,B[0]-.01),[B[0],join(B[0],-1,.16,px)],d+.2+k*.06) }
-            else{ const Vo=tOut(lastA[1]+.02,lastB[1]-.03), Vi=tIn(lastA[1]+.01,lastB[0]-.01), To=tOut(A[1]+.02,B[0]), Ti=tIn(A[1]+.01,B[0]-.01);
-              if(Vo&&To) oval(To,[To[0]+(lastB[1]-Vo[0]),join(lastB[1],-1,.16,px)],d+.14+k*.06,'l',true);
-              if(Vi&&Ti) oval(Ti,[Ti[0]+(lastB[0]-Vi[0]),join(lastB[0],-1,.16,px)],d+.2+k*.06) }
-          }else{
-            oval(g.ext(A[0]+.03,B[0]-.02,e=>{const u=cBot(e);return u&&u[1]},false), [A[0],join(A[0],-1,.32,-px)], d+.14,'l',true);
-            oval(g.ext(A[1]+.01,B[0]-.01,e=>{const u=cBot(e);return u&&u[0]},false), [A[1],join(A[1],-1,.32,-px)], d+.2);
-          }
+          /* овал вписан в промежуток между штамбами: по ширине — ровно от края до края (внешний — по внешним краям, внутренний — по просвету),
+             сверху (у «u» — снизу) касается дуги посередине, а по высоте доходит до места, где край штамба становится вертикальным.
+             Высота стыка берётся у крайнего штамба: у «m» первая арка упирается во вторую и своего стыка не имеет, а арки в букве одинаковые */
+          const A=st[k], B=st[k+1], L=st[st.length-1];
+          const ins=(xl,xr,outer,yj,dd,cls,mark)=>{ const cx=(xl+xr)/2, cc=g.col(cx); if(!cc.length) return;
+            const sg=up?cc[cc.length-1]:cc[0], v=up?(outer?sg[1]:sg[0]):(outer?sg[0]:sg[1]); return oval([cx,v],[xr,yj],dd,cls,mark) };
+          if(!up){ ins(A[1],B[1],true,join(L[1],-1,.16,px),d+.14+k*.06,'l',true); ins(A[1],B[0],false,join(L[0],-1,.16,px),d+.2+k*.06) }
+          else{ ins(A[0],B[0],true,join(A[0],-1,.32,-px),d+.14,'l',true); ins(A[1],B[0],false,join(A[1],-1,.32,-px),d+.2) }
         }
       }
     }
