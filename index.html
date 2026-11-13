@@ -2045,13 +2045,14 @@ function renderStats(){
   m.now.blocks.forEach((A,blk)=>{ if(!counted(m,blk)) return; const B=m.new.blocks.get(blk);
     blocks++; lines+=A.nv; linesN+=B.nv; if(A.sig!==B.sig) moved++; if(A.h!==B.h) taller++ });
   const d=linesN-lines, dh=m.now.wh?(m.new.wh/m.now.wh-1)*100:0, dt=m.now.wt?(m.new.wt/m.now.wt-1)*100:0;
-  scrStats.innerHTML=`<div><b>${fmt(lines)}</b><span>${scr.dataset.live?'строк текста на экране':'строк текста в макете'}</span></div>`+
-    `<div><b${moved?' class="hot"':''}>${moved}</b><span>из ${blocks} блоков: сдвинулся перенос</span></div>`+
-    `<div><b>${d>0?'+':d<0?'−':''}${Math.abs(d)}</b><span>${d<0?'строк в итоге стало меньше':d>0?'строк в итоге стало больше':'строк в итоге столько же'}</span></div>`+
-    `<div><b>${pct(dh)}</b><span>ширина заголовков: Montserrat → Komus</span></div>`;
+  /* подписи — названия показателей, а не продолжение фразы после числа: так они верны при любом числе */
+  scrStats.innerHTML=`<div><b>${fmt(lines)}</b><span>${scr.dataset.live?'всего строк текста на экране':'всего строк текста в макете'}</span></div>`+
+    `<div><b${moved?' class="hot"':''}>${moved}</b><span>блоков с другим переносом, из ${blocks}</span></div>`+
+    `<div><b>${d>0?'+':d<0?'−':''}${Math.abs(d)}</b><span>разница в числе строк: ${d<0?'текст стал короче':d>0?'текст стал длиннее':'их столько&nbsp;же'}</span></div>`+
+    `<div><b>${pct(dh)}</b><span>ширина заголовков: Montserrat&nbsp;→&nbsp;Komus</span></div>`;
   scrNote.textContent=`Текст, набранный Fira Sans, на этом экране в Komus Sans ${dt<=0?'уже':'шире'} на ${pct(Math.abs(dt)).replace('+','')}`+
     (dt<=0?': если перенос и сдвигается, строка чаще становится короче.':': здесь много цифр и коротких подписей, а на них Komus чуть шире.')+
-    ` Высота блоков изменилась в ${taller} из ${blocks}. `+(scr.dataset.live?'Это снимок настоящей страницы komus.ru: шрифт подменён в браузере, строки посчитаны при съёмке.':'Всё посчитано браузером на этой странице, не вручную.');
+    (taller?` Высота изменилась у ${taller} ${taller%10===1&&taller%100!==11?'блока':'блоков'} из ${blocks}. `:` Высота ни одного блока не изменилась. `)+(scr.dataset.live?'Это снимок настоящей страницы komus.ru: шрифт подменён в браузере, строки посчитаны при съёмке.':'Всё посчитано браузером на этой странице, не вручную.');
 }
 function setFace(f){
   mode=f; face=f==='new'?'new':'now'; stage.classList.toggle('fs-new',face==='new'); stage.classList.toggle('fs-now',face!=='new');
