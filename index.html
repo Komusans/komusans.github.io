@@ -115,7 +115,7 @@ html.locked{overflow:hidden;scrollbar-gutter:stable}
 .guide span b{font-weight:700;color:#f5f5f7}
 @media (max-width:1180px){.guide span em{display:none}}
 .on .guide{transform:none}.on .guide span{opacity:1}
-.g-cap{top:.122em}.g-x{top:.335em;border-top-style:dashed;opacity:.75}.g-base{top:.835em}.g-desc{top:1.03em;border-top-style:dashed;opacity:.75}
+.g-cap{top:.166em}.g-x{top:.335em;border-top-style:dashed;opacity:.75}.g-base{top:.835em}.g-desc{top:1.03em;border-top-style:dashed;opacity:.75}
 .spec .guides{position:absolute;inset:0;font-size:clamp(46px,13.4vw,236px);pointer-events:none}
 .hero p.sub{font:500 clamp(22px,3.1vw,40px)/1.15 var(--ks);text-align:center;margin:clamp(40px,6vw,76px) auto 0;max-width:20em;text-wrap:balance}
 .hero p.facts{text-align:center;color:#86868b;font-size:15px;margin:18px 0 0}
@@ -871,7 +871,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     <div class="spec" id="spec">
       <h1 id="heroWord">Komus Sans</h1>
       <div class="guides" aria-hidden="true">
-        <div class="guide g-cap" style="--d:.15s"><span><em>высота прописных </em><b>713</b></span></div>
+        <div class="guide g-cap" style="--d:.15s"><span><em>высота прописных </em><b>669</b></span></div>
         <div class="guide g-x" style="--d:.3s"><span><em>рост строчных </em><b>500</b></span></div>
         <div class="guide g-base" style="--d:0s"><span><em>базовая линия </em><b>0</b></span></div>
         <div class="guide g-desc" style="--d:.45s"><span><em>нижний выносной </em><b>−195</b></span></div>
@@ -1661,7 +1661,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 <!-- 8 -->
 <section class="get" id="download">
   <div class="wrap">
-    <p class="eyebrow rv">Версия 1.011</p>
+    <p class="eyebrow rv">Версия 1.012</p>
     <h2 class="rv">Komus Sans</h2>
     <p class="lead rv">Статические и вариативные файлы для сайта, приложений и Figma. Межбуквенные расстояния уже в шрифте, letter-spacing не нужен.</p>
     <button class="dl rv" id="dlBtn" type="button">
@@ -1673,7 +1673,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   </div>
 </section>
 </main>
-<footer><div class="wrap"><span>Komus Sans основан на шрифте Commissioner (Костас Барцокас) и распространяется по лицензии SIL Open Font License 1.1.</span><span>Версия 1.011</span></div></footer>
+<footer><div class="wrap"><span>Komus Sans основан на шрифте Commissioner (Костас Барцокас) и распространяется по лицензии SIL Open Font License 1.1.</span><span>Версия 1.012</span></div></footer>
 
 <script>
 document.documentElement.classList.add('js');
@@ -1753,10 +1753,12 @@ else (function(){
   /* карандашное построение: всё считается по самим буквам, поэтому подходит любой версии шрифта.
      Овалы вписаны: каждый проходит через две соседние крайние точки настоящего контура (например, верх и левый бок чаши)
      и касается буквы в этих точках. */
+  /* метрики Komus Sans в долях кегля: высота заглавных (0,669, как у цифр; раньше была 0,713) и базовая линия в строке высотой 1 */
+  const CAPH=.669, BASE0=.835;
   function construct(r,fs,VW){
     const tx=heroWord.firstChild, text=tx.nodeValue, R=document.createRange(), base=r.top+.835*fs, G={}, P=[], n=v=>v.toFixed(1), Y=e=>base-e*fs;
     const line=(x1,y1,x2,y2,c,d,t)=>P.push(`<path pathLength="1" class="${c}" style="--d:${d.toFixed(2)}s;--t:${t||.7}s" d="M${n(x1)} ${n(y1)}L${n(x2)} ${n(y2)}"/>`);
-    [[0,'r'],[.713,'r'],[.5,''],[-.195,'l']].forEach(([h,c],k)=>line(-VW,Y(h),2*VW,Y(h),c,k*.07,1.1));   /* линии высот: базовая и прописные — красным, как линейки героя */
+    [[0,'r'],[CAPH,'r'],[.5,''],[-.195,'l']].forEach(([h,c],k)=>line(-VW,Y(h),2*VW,Y(h),c,k*.07,1.1));   /* линии высот: базовая и прописные — красным, как линейки героя */
     for(let i=0;i<text.length;i++){
       const c=text[i]; if(c===' ') continue;
       R.setStart(tx,i); R.setEnd(tx,i+1);
@@ -1767,7 +1769,7 @@ else (function(){
         if(mark){ line(X(cx)-5,Y(cy),X(cx)+5,Y(cy),'',dd+.2,.3); line(X(cx),Y(cy)-5,X(cx),Y(cy)+5,'',dd+.2,.3) } return [cx,cy,rx,ry] };
       const first=q=>{ const u=g.row(q); return u.length?u[0]:null }, last=q=>{ const u=g.row(q); return u.length?u[u.length-1]:null };
       const cTop=e=>{ const u=g.col(e); return u.length?u[0]:null }, cBot=e=>{ const u=g.col(e); return u.length?u[u.length-1]:null };
-      line(X(g.l),Y(.713+.2),X(g.l),Y(-.3),'l',d,.6); line(X(g.r),Y(.713+.2),X(g.r),Y(-.3),'l',d+.04,.6);      /* границы буквы */
+      line(X(g.l),Y(CAPH+.2),X(g.l),Y(-.3),'l',d,.6); line(X(g.r),Y(CAPH+.2),X(g.r),Y(-.3),'l',d+.04,.6);      /* границы буквы */
       if(c==='K'){
         /* наклонные: край ветви берётся в двух строках, где она ещё отделена от штамба, и продолжается через лист */
         const two=(from,to,step)=>{ let k=0; while(Math.abs(k*step)<=Math.abs(to-from)+1e-9&&g.row(from+k*step).length>1) k++; return from+Math.max(0,k-2)*step };
@@ -1775,7 +1777,7 @@ else (function(){
           const xa=A[A.length-1][k], xb=B[B.length-1][k], at=q=>xa+(xb-xa)*(q-ha)/(hb-ha); line(X(at(-.42)),Y(-.42),X(at(1.1)),Y(1.1),'',dd,1) };
         const hu=two(.64,.4,-.02), hl=two(.06,.34,.02);
         edge(.66,hu,0,d+.1); edge(.66,hu,1,d+.16); edge(.05,hl,0,d+.22); edge(.05,hl,1,d+.28);
-        const st=g.row(.1)[0]; if(st) line(X(st[1]),Y(.713+.12),X(st[1]),Y(-.12),'',d+.08,.6);
+        const st=g.row(.1)[0]; if(st) line(X(st[1]),Y(CAPH+.12),X(st[1]),Y(-.12),'',d+.08,.6);
       }
       else if(c==='o'){
         /* замкнутые контуры: внешний и внутренний овалы по четырём крайним точкам, лучи из центра */
@@ -1839,7 +1841,7 @@ else (function(){
     const VW=gate.clientWidth, VH=gate.clientHeight, hb=heroWord.getBoundingClientRect(), tr=document.createRange(); tr.selectNodeContents(heroWord);
     const tb=tr.getBoundingClientRect(), r={left:tb.left,top:hb.top,width:tb.width}, fs=parseFloat(getComputedStyle(heroWord).fontSize);   /* ширина — по самому тексту: блок заголовка бывает уже слова */
     heroWord.style.transition='';
-    const CAP=.122, BASE=.835;                                             /* линии прописных и базовая, в долях кегля — те же, что у линеек героя */
+    const CAP=BASE0-CAPH, BASE=BASE0;                                             /* линии прописных и базовая, в долях кегля — те же, что у линеек героя */
     const F={x:r.left+r.width/2, y:r.top+(CAP+BASE)/2*fs};                 /* середина слова */
     const S0=Math.min(2.2,Math.max(1.04,.92*VW/r.width));                  /* на листе слово крупнее заголовка: почти во всю ширину экрана */
     const C={x:(S0*F.x-VW/2)/(S0-1), y:(S0*F.y-VH/2)/(S0-1)};              /* неподвижная точка уменьшения: на листе слово стоит по центру экрана */
@@ -2144,7 +2146,7 @@ $$('.stat b[data-n]').forEach(b=>{
     const t0=performance.now(); (function s(t){const k=Math.min(1,(t-t0)/1300); b.textContent=Math.round(n*(1-Math.pow(1-k,3))); if(k<1) requestAnimationFrame(s)})(t0)}),{threshold:.6}).observe(b)});
 
 /* скачивание: архив лежит рядом в base64, потому что сам .zip здесь не раздаётся */
-const ZIP='KomusSans-1.011.zip', dlBtn=$('#dlBtn'), dlNote=$('#dlNote');
+const ZIP='KomusSans-1.012.zip', dlBtn=$('#dlBtn'), dlNote=$('#dlNote');
 let dl=null; const hosted=!!(window.claude&&window.claude.use);
 if(hosted) window.claude.use('downloads').then(d=>{dl=d}).catch(()=>{});
 async function zipBlob(){
