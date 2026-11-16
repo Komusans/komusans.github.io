@@ -1668,7 +1668,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 <!-- 8 -->
 <section class="get" id="download">
   <div class="wrap">
-    <p class="eyebrow rv">Версия 1.017</p>
+    <p class="eyebrow rv">Версия 1.018</p>
     <h2 class="rv">Komus Sans</h2>
     <p class="lead rv">Статические и вариативные файлы для сайта, приложений и Figma. Межбуквенные расстояния уже в шрифте, letter-spacing не нужен.</p>
     <button class="dl rv" id="dlBtn" type="button">
@@ -1680,7 +1680,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   </div>
 </section>
 </main>
-<footer><div class="wrap"><span>Komus Sans основан на шрифте Commissioner (Костас Барцокас) и распространяется по лицензии SIL Open Font License 1.1.</span><span>Версия 1.017</span></div></footer>
+<footer><div class="wrap"><span>Komus Sans основан на шрифте Commissioner (Костас Барцокас) и распространяется по лицензии SIL Open Font License 1.1.</span><span>Версия 1.018</span></div></footer>
 
 <script>
 document.documentElement.classList.add('js');
@@ -2148,7 +2148,7 @@ $$('.stat b[data-n]').forEach(b=>{
     const t0=performance.now(); (function s(t){const k=Math.min(1,(t-t0)/1300); b.textContent=Math.round(n*(1-Math.pow(1-k,3))); if(k<1) requestAnimationFrame(s)})(t0)}),{threshold:.6}).observe(b)});
 
 /* скачивание: архив лежит рядом в base64, потому что сам .zip здесь не раздаётся */
-const ZIP='KomusSans-1.017.zip', dlBtn=$('#dlBtn'), dlNote=$('#dlNote');
+const ZIP='KomusSans-1.018.zip', dlBtn=$('#dlBtn'), dlNote=$('#dlNote');
 let dl=null; const hosted=!!(window.claude&&window.claude.use);
 if(hosted) window.claude.use('downloads').then(d=>{dl=d}).catch(()=>{});
 async function zipBlob(){
